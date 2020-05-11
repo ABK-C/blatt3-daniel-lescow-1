@@ -30,7 +30,7 @@ int main() {
   ofstream fout("histpoi.txt");
   for(auto g : zaehler) {
    
-    cout << g << endl;
+    //cout << g << endl;
     fout << j << " " << g << " " << poisson(j) << endl;
     ++j;
   }
