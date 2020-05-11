@@ -31,7 +31,7 @@ int main() {
   for(auto g : zaehler) {
    
     //cout << g << endl;
-    fout << j << " " << g << " " << poisson(j) << endl;
+    fout << j << " " << g << " " << (poisson(j)*234) << endl;
     ++j;
   }
 
