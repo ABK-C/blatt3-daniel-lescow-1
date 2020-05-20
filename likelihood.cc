@@ -4,22 +4,28 @@
 #include <cmath>
 
 using namespace std;
-double mu=3.11538;
+double mu=3.11538, n_dof = 233;
 
 long double prob(vector<int> daten, double mu) {
   
   long double L = 1;
-  
   for(int k : daten) {
     L *= pow(mu, k) * exp(-mu) /(tgamma(k + 1));
   }
   return L;
 }
 
+double prob2(vector<int> daten) {
+  double L = 1;
+  for (int k : daten){
+    L *= pow(k, k)*exp(-k)/tgamma(k+1);
+  }
+ return L;
+}
+
 int main() {
 
   vector<int> daten(0);
-
   ifstream fin("datensumme.txt");
   int n_i;
   for(int i = 0 ; i < 234 ; ++i) {
@@ -31,19 +37,15 @@ int main() {
   
   fin.close();
 
-  cout << prob(daten , mu) << endl;
-
-
   double i=0;
   ofstream fout("likelihood.txt");
   ofstream fout2("nll.txt");
   ofstream fout3("deltall.txt");
   do{ 
     
-   fout << prob(daten,i) << endl;
+   fout << i << " " << prob(daten,i) << endl;
    fout2 << i << " " << -2*log(prob(daten,i)) << endl;
-   //Minimum bei 3.1 => min(L(mu))=893.926 Intervall ~[3 , 3.25]
-   fout3 << -2*log(prob(daten,mu))+2*log(prob(daten,i)) << endl;
+   fout3 << i << " " << -2*log(prob(daten,mu))+2*log(prob(daten,i)) << endl;
 
    i+=0.1;
 
@@ -53,9 +55,9 @@ int main() {
   fout2.close();
   fout3.close();
 
-  for(int i = 0 ; i < 234 ; ++i) {
-
-    double A *= 
-
-  }
+  cout << prob(daten , mu) << endl;
+  double A = -2*log(prob(daten,mu)/prob2(daten));
+  cout << A << endl;
+  double z = (A-n_dof)/(sqrt(2*n_dof));
+  cout << z << endl;
 }
